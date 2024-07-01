@@ -1,0 +1,27 @@
+sources:
+  in:
+    type: docker_logs
+    include_containers:
+      - generate_logs
+
+transforms:
+  remap:
+    type: remap
+    inputs:
+      - in
+    source: |
+      . |= parse_apache_log!(.message, format: "common")
+      .font = "Inconsolata"
+      .output = "json"
+
+sinks:
+  out:
+    type: http
+    uri: http://127.0.0.1:9000/vector
+    method: post
+    compression: none
+    encoding:
+      except_fields: ["container_created_at", "container_name", "container_id", "source_type", "stream"] 
+      codec: json
+    inputs:
+      - remap

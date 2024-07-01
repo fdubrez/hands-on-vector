@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
+	<link rel="stylesheet" href="dist/slides.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<script src="plugin/highlight/highlight.js"></script>
+	<style>
+		.a-long-time-ago {
+			/* cosmétique */
+			font-size: 32px;
+			color: #4bd5ee;
+			/* Animation: Apparition et disparition progressive */
+			opacity: 1;
+			animation-delay: 1s;
+			animation-duration: 1s;
+			/* animation-name: a-long-time-ago; */
+			animation-timing-function: ease-out;
+		}
+		/* #console {
+			transform: perspective(280px) rotateX(25deg);
+			text-align: center;
+		} */
+		@keyframes a-long-time-ago {
+			0%   { opacity: 0; }
+			20%  { opacity: 1; }
+			80%  { opacity: 1; }
+			100% { opacity: 0; }
+		}
+	</style>
+	<style>
+		@import 'https://fonts.googleapis.com/css?family=Inconsolata';
+
+html {
+  min-height: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  height: 100%;
+  
+}
+
+.noise {
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+  opacity: .02;
+}
+
+.overlay {
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:
+      repeating-linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0,
+      rgba(0, 0, 0, 0.3) 50%,
+      rgba(0, 0, 0, 0) 100%);
+  background-size: auto 4px;
+  z-index: 1;
+}
+
+.overlay::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+      0deg,
+      transparent 0%,
+      rgba(32, 128, 32, 0.2) 2%,
+      rgba(32, 128, 32, 0.8) 3%,
+      rgba(32, 128, 32, 0.2) 3%,
+      transparent 100%);
+  background-repeat: no-repeat;
+  animation: scan 7.5s linear 0s infinite;
+}
+
+@keyframes scan {
+  0%        { background-position: 0 -100vh; }
+  35%, 100% { background-position: 0 100vh; }
+}
+
+.terminal {
+	background-color: #000000;
+  background-image: radial-gradient(#11581E, #041607), url("https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Inconsolata', Helvetica, sans-serif;
+  font-size: 1.5rem;
+  color: rgba(128, 255, 128, 0.8);
+  text-shadow:
+      0 0 1ex rgba(51, 255, 51, 1),
+      0 0 2px rgba(255, 255, 255, 0.8);
+  box-sizing: inherit;
+  position: absolute;
+  height: 100%;
+  width: 1000px;
+  max-width: 100%;
+  padding: 1rem;
+  text-transform: uppercase;
+}
+
+.terminal .output {
+  color: rgba(128, 255, 128, 0.8);
+  text-shadow:
+      0 0 1px rgba(51, 255, 51, 0.4),
+      0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.terminal .output::before {
+  content: "> ";
+}
+
+/*
+.input {
+  color: rgba(192, 255, 192, 0.8);
+  text-shadow:
+      0 0 1px rgba(51, 255, 51, 0.4),
+      0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.input::before {
+  content: "$ ";
+}
+*/
+
+.terminal a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.terminal a::before {
+  content: "[";
+}
+
+.terminal a::after {
+  content: "]";
+}
+
+.errorcode {
+  color: white;
+}
+
+.no-dot li {
+	list-style-type: none;
+}
+	</style>
+</head>
+
+<body style="display: flex;">
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h3>🔧 Quel <span class="focus">Vector</span> d’attaque pour votre pipeline d’ingestion de logs ?</h3>
+				<h6>v0.3.0-Breizhcamp</h6>
+				<img style="width: 25rem" src="dist/img/death_star.png" />
+				<img src="dist/img/xwing.png" style="position: absolute; bottom: -100px; right: 0; width: 20rem; -webkit-transform: scaleX(-1);
+					transform: scaleX(-1);" />
+			</section>
+			<section>
+				<section>
+					<div class="container">
+						<img src="./dist/img/crashed.jpg" />
+						<div>
+							<ul class="no-dot">
+								<li class="smaller">🐦 <a href="https://twitter.com/Zeill45">@Zeill45</a>
+								</li>
+								<li class="smaller fragment fade-up">👔 Humble développeur et co-directeur technique
+									chez Max
+									Digital
+									Services</li>
+								<li class="smaller fragment fade-up">🤠 On recrute!<br /></li>
+							</ul>
+							<!-- <img src="assets/logo-max.svg" width="50%" /> -->
+						</div>
+					</div>
+				</section>
+				<section>
+					<h1>⚠️ Disclaimer</h1>
+				</section>
+				<section>
+					<img src="dist/img/glasses_meme.jpeg" />
+				</section>
+			</section>
+			<section>
+				<section>
+					<img src="dist/img/vector.png" />
+				</section>
+				<section>
+					<ul class="no-dot">
+						<li>🪶 léger</li>
+						<li class="fragment">⚡ performant</li>
+						<li class="fragment">🦀 robuste</li>
+						<li class="fragment"><img src="dist/img/rustacean.png" /></li>
+					</ul>
+				</section>
+				<section>
+					<img src="dist/img/schema.png" />
+					<p>source: <a href="https://vector.dev">vector.dev</a></p>
+				</section>
+				<section>
+					<h3>Comment démarrer</h3>
+					<pre><code data-trim>
+# install one liner
+curl --tlsv1.2 -sSfL https://sh.vector.dev | bash
+
+# lancer le binaire avec hot reload 🔥
+vector -c vector.yaml -w 
+
+# lancement avec Docker 🐋
+docker run \
+	-v $PWD/vector.yaml:/etc/vector/vector.yaml:ro \
+	timberio/vector
+					</code></pre>
+				</section>
+				<section>
+					<h3>vector.yaml</h3>
+<pre><code data-trim data-line-numbers="1-11|1|2-4|5|6-11">
+sources:
+	in:
+		type: "demo_logs"
+		format: "apache_common"        
+sinks:
+	out:
+		inputs:
+			- "in"
+		type: "console"
+		encoding:
+			codec: "text"
+					</code></pre>
+					<aside class="notes">
+						formats: yaml, toml, json
+					  </aside>
+				</section>
+				<section>
+					<h3>encoding.codec: "json"</h3>
+<pre><code data-trim>
+sources:
+	in:
+		type: "demo_logs"
+		format: "apache_common"        
+sinks:
+	out:
+		inputs:
+			- "in"
+		type: "console"
+		encoding:
+			codec: "json"
+</code></pre>
+					<aside class="notes">
+						formats: yaml, toml, json
+						</aside>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>🚰 Sources</h1>
+				</section>
+				<section>
+					<h3>📁 file</h3>
+					<pre><code data-trim>
+sources:
+  	my_source_id:
+    	type: "file"
+    	include:
+      		- "/var/log/**/*.log"
+					</code></pre>
+				</section>
+				<section>
+					<h3>🗃️ file (advanced)</h3>
+					<pre><code data-trim>
+sources:
+	my_source_id:
+		type: file
+		data_dir: /var/local/lib/vector/
+		exclude:
+		- /var/log/binary-file.log
+		file_key: file
+		glob_minimum_cooldown_ms: 1000
+		host_key: host
+		ignore_older_secs: 600
+		include:
+		- /var/log/**/*.log
+		line_delimiter: "\n"
+		max_line_bytes: 102400
+		max_read_bytes: 2048
+		offset_key: offset
+		read_from: beginning
+		rotate_wait_secs: 9223372036854776000
+</code></pre>
+				</section>
+				<section>
+					<img src="dist/img/vector_sources.png" />
+				</section>
+				<section>
+					<h3>🐋 docker_logs</h3>
+					<pre><code data-trim>
+sources:
+	my_source_id:
+		type: docker_logs
+		exclude_containers:
+			- exclude_
+		include_containers:
+			- generate_logs
+		include_images:
+			- httpd
+		include_labels:
+			- org.opencontainers.image.vendor=Vector
+</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>🎯 sinks</h1>
+				</section>
+				<section>
+					<img src="dist/img/vector_sinks.png" />
+				</section>
+				<section>
+					<h3>loki</h3>
+					<pre><code data-trim>
+sinks:
+	my_sink_id:
+		type: "loki"
+		inputs:
+			- "my-source-or-transform-id"
+		endpoint: "http://localhost:3100"</code></pre>
+				</section>
+				<section>
+					<h3>🤝 Garanties claires</h3>
+					<img src="dist/img/loki.png" />
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>🔨 transforms</h1>
+				</section>
+				<section>
+					<img src="dist/img/vector_transforms.png" />
+				</section>
+				<section>
+					<h3>remap (VRL)</h3>
+					<pre><code data-trim>
+transforms:
+	remap_apache:
+		inputs:
+			- "generate_apache"
+		type: "remap"
+		source: |
+				structured = parse_apache_log!(.message, format:"common")
+				#. = merge(., structured)
+				.structured = structured
+</code></pre>
+				</section>
+				<section>
+					<h3>route</h3>
+					<pre><code data-trim>
+transforms:
+	apache_router:
+		type: "route"
+		inputs:
+			- remap_apache
+		route:
+			errors: .status >= 400
+			ok: .status < 300
+		reroute_unmatched: false # default is true
+</code></pre>
+	<pre><code data-trim>
+# routes
+apache_router.errors
+apache_router.ok
+# unmatched route
+apache_router._unmatched
+</code></pre>
+				</section>
+				<section>
+					<h3>Champ timestamp custom</h3>
+					<pre><code data-trim>
+log_schema:
+	# Applies to all sources, sinks, and transforms!
+	timestamp_key: "@timestamp"
+					</code></pre>
+				</section>
+				<section>
+					<h3>Méthodes utilitaires</h3>
+					<pre><code data-trim data-line-numbers="1-8|1-3|4-5|7-9">
+# suppression explicite de propriétés
+del(.size)
+
+# parsing logfmt ('key1=value1 key2=value2')
+structured = parse_key_value!(.message)
+
+# remplacement d'un secret
+redact(.host, filters: [r'\d+\.\d+\.\d+\.\d+'])
+redact(.host, filters: [r'\d+\.\d+\.\d+\.\d+'], redactor: sha2)
+					</code></pre>
+					<p><a href="https://vector.dev/docs/reference/vrl/functions">vector.dev/docs/reference/vrl/functions</a></p>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>👷 Topologies</h1>
+				</section>
+				<section>
+					<img src="dist/img/distributed.png" />
+				</section>
+				<section>
+					<img src="dist/img/centralized.png" />
+				</section>
+				<section>
+					<img src="dist/img/streambased.png" />
+				</section>
+			</section>
+			<section>
+				<section>
+					<h3>🏗️ "archi" des slides</h3>
+					<img src="dist/img/diagram.png" />
+				</section>
+				<section>
+					<img src="dist/img/websocket.png" />
+				</section>
+				<section>
+					<h3>HTTP sink</h3>
+					<pre><code data-trim>
+sinks:
+	out:
+		type: "http"
+		uri: "http://127.0.0.1:9000/vector"
+		method: "post"
+		compression: "none"
+		encoding:
+			codec: "json"
+					</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h3>mes retours</h3>
+					<ul class="no-dot">
+						<li>😍 la doc</li>
+						<li>🪶 léger et auto porté</li>
+						<li>🧱 composable et démarrage rapide</li>
+						<li>metrics, tests, ... à creuser</li>
+					</ul>
+				</section>
+				<section>
+					<h3>😍 graph de topologie</h3>
+					<img src="dist/img/graph.png" />
+				</section>
+				<section>
+					<img src="dist/img/route_apache.svg" width="30%"/>
+				</section>
+				<section>
+					<h3>I ❤️ feedback</h3>
+					<img src="dist/img/qrcode.png" width="55%" />
+				</section>
+				<section>
+					<h3>Références</h3>
+					<ul class="no-dot">
+						<li>Look terminal: <a href="https://codepen.io/robinselmer/pen/vJjbOZ">codepen.io/robinselmer</a></li>
+						<li>Doc Vector: <a href="https://vector.dev">vector.dev</a></li>
+					</ul>
+				</section>
+			</section>
+		</div>
+	</div>
+	<div id="console" class="a-long-time-ago" style="width: 40vw;">
+		<div class="noise"></div>
+		<div class="overlay"></div>
+		<div class="terminal">
+			<h1>> tail -f <span class="errorcode">/var/log/deathstar.log</span></h1>
+			<p class="output">Type CTRL+C <a href="#1">to stop</a>.</p>
+			<ul id="logs" style="list-style-type: none; font-family: 'ImperialFont'; color: white; width: 40rem;">
+			</ul>
+		</div>
+		
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+		// Change the size of our presentation
+		document.querySelector('.reveal').style.width = '60vw';
+
+		// Make reveal.js aware of the size change
+		Reveal.layout();
+	</script>
+	<script type="importmap">
+		{
+			"imports": {
+			"socket.io-client": "https://cdn.socket.io/4.7.5/socket.io.esm.min.js"
+			}
+		}
+	</script>
+	<script type="module">
+		let logs = []
+		const logsElement = document.getElementById("logs");
+		import { io } from "socket.io-client";
+		const socket = io("ws://localhost:9000");
+		socket.on("connect", () => {
+			console.log('connected to server');
+		});
+		socket.on('message', (data) => {
+
+			logs = [...logs, ...JSON.parse(data)].slice(-5);
+			logsElement.innerHTML = logs
+				.map(x => {
+					// const {font, output} = x
+					// if (font) {
+					// 	delete x.font
+					// 	delete x.output
+					// 	return `<li style="font-family: ${font}">${output === 'json' ? '<pre>' + JSON.stringify(x, null, 2) + '</pre>' : x.message}</li>`;
+					// }
+					const {font, output} = x
+					if (x.font) {
+						return `<li style="font-family: ${x.font}">${x.output === 'json' ? '<pre>' + JSON.stringify(x, null, 2) + '</pre>' : x.message}</li>`;
+					}
+
+					return `<li>${x.message}</li>`;
+				})
+				.join("\n");
+		})
+		Reveal.on('slidechanged', (event) => {
+			socket.emit("slidechanged", JSON.stringify(event))
+			// event.previousSlide, event.currentSlide, event.indexh, event.indexv
+		});
+		Reveal.on('fragmentshown', (event) => {
+			// event.fragment = the fragment DOM element
+			const indexes = window.location.href.split("#")[1].split("/").slice(1,4);
+			socket.emit("fragmentshown", JSON.stringify({indexh: indexes[0], indexv: indexes[1], indexf: indexes[2]}))
+		});
+	</script>
+</body>
+
+</html>

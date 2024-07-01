@@ -1,0 +1,26 @@
+sources:
+  generate_syslog:
+    type:   "demo_logs"
+    format: "syslog"
+
+transforms:
+  remap_syslog:
+    inputs:
+      - "generate_syslog"
+    type:   "remap"
+    source: |
+            structured = parse_syslog!(.message)
+            .structured = structured
+            .font = "Inconsolata"
+            .output = "json"          
+
+sinks:
+  emit_syslog:
+    type: http
+    uri: http://127.0.0.1:9000/vector
+    method: post
+    compression: none
+    encoding:
+      codec: "json"
+    inputs:
+      - remap_syslog

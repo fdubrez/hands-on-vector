@@ -1,0 +1,8 @@
+.focus {
+    color: #42affa;
+}
+
+@font-face {
+    font-family: 'ImperialFont';
+    src: url('fonts/ImperialCode-VGXpx.ttf')  format('truetype'), /* Safari, Android, iOS */
+}

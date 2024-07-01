@@ -1,0 +1,14 @@
+sources:
+  in:
+    type: "demo_logs"
+    format: "apache_common"
+    interval: 3
+
+sinks:
+  out:
+    type: console
+    encoding:
+      codec: "text"
+    inputs:
+      - in
+      

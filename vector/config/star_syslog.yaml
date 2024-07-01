@@ -1,0 +1,35 @@
+sources:
+  in:
+    type: "docker_logs"
+    include_containers:
+      - "generate_logs"
+    # include:
+    #   - /Users/fdubrez/git/github/breizhcamp-vector/star.log
+
+transforms:
+  remap_syslog:
+    inputs:
+      - in
+    type:   "remap"
+    source: |
+            structured = parse_syslog!(.message)
+            . = merge(., structured)
+            .font = "Inconsolata"
+            .output = "json"          
+
+sinks:
+  out:
+    type: console
+    inputs:
+      - remap_syslog
+    encoding:
+      codec: json
+  # emit_syslog:
+  #   type: http
+  #   uri: http://127.0.0.1:9000/vector
+  #   method: post
+  #   compression: none
+  #   encoding:
+  #     codec: "json"
+  #   inputs:
+  #     - remap_syslog
